@@ -75,6 +75,18 @@ namespace VectorMath {
             ss << values[dim-1] << ")";
             return ss.str();
         }
+
+        double mag2() const {
+            double result = 0.0;
+            for (double value : values) {
+                result += value*value;
+            } 
+            return result;
+        }
+
+        double magnitude() const {
+            return std::sqrt(mag2());
+        }
     };
 
     // Define commonly used types

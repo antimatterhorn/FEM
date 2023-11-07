@@ -40,6 +40,10 @@ class Vector:
     @property
     def z(self):
         return self.vector.z()
+    
+    @property
+    def magnitude(self):
+        return self.vector.magnitude()
 
     def __str__(self):
         return str(self.vector.toString())
@@ -76,7 +80,10 @@ if __name__ == "__main__":
     vec1 = Vector(1.0,2.0,3.0)
     vec2 = Vector(2.0,3.0,4.0)
 
-    print(vec1,vec2)
-    print(vec1*vec2)
-    print(vec1+vec2)
-    print(vec2*2.0)
+    print("Vec1 =",vec1)
+    print("Vec2 =",vec2)
+    print("Vec1*Vec2 =",vec1*vec2)
+    print("Vec1xVec2 =",vec1.crossProduct(vec2))
+    print("Vec1+Vec2 =",vec1+vec2)
+    print("Vec2*2 = ",vec2*2.0)
+    print("|Vec2| =",vec2.magnitude)
