@@ -10,10 +10,24 @@ VectorMath = cppyy.gbl.VectorMath
 
 class Vector:
     def __init__(self,*args):
-        self.vector = VectorMath.Vector(args)
-    def cross(self,other):
-        crossP = self.vector.cross(other.vector)
-        return Vector(crossP.x(),crossP.y(),crossP.z())
+        if len(args) == 1:
+            self.vector = VectorMath.Vector1D(*args)
+        elif len(args) == 2:
+            self.vector = VectorMath.Vector2D(*args)
+        elif len(args) == 3:
+            self.vector = VectorMath.Vector3D(*args)
+        else:
+            raise ValueError("invalid number of args for Vector")
+    def crossProduct(self,other):
+        crossP = self.vector.crossProduct(other.vector)
+        if isinstance(self.vector, VectorMath.Vector3D):
+            return Vector(crossP.x(), crossP.y(), crossP.z())
+        elif isinstance(self.vector, VectorMath.Vector2D):
+            return Vector(crossP.x(), crossP.y())
+        elif isinstance(self.vector, VectorMath.Vector1D):
+            return Vector(crossP.x())
+        else:
+            raise ValueError("Invalid vector type after cross product")
     
     @property
     def x(self):
@@ -28,11 +42,12 @@ class Vector:
         return self.vector.z()
 
     def __str__(self):
-        return f"({self.x}, {self.y}, {self.z})"
+        return str(self.vector.toString())
 
 # Example usage
 if __name__ == "__main__":
     vec1 = Vector(1.0,2.0,3.0)
     vec2 = Vector(2.0,3.0,4.0)
 
-    print(vec1.cross(vec2))
+    print(vec1,vec2)
+    print(vec1.crossProduct(vec2))
