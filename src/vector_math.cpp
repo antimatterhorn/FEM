@@ -17,7 +17,7 @@ namespace VectorMath {
         // Method for vector addition
         Vector add(const Vector& other) const {
             Vector result;
-            for (size_t i = 0; i < values.size(); ++i) {
+            for (std::size_t i = 0; i < values.size(); ++i) {
                 result.values.push_back(values[i] + other.values[i]);
             }
             return result;
@@ -26,14 +26,14 @@ namespace VectorMath {
         // Method for dot product
         double dotProduct(const Vector& other) const {
             double result = 0.0;
-            for (size_t i = 0; i < values.size(); ++i) {
+            for (std::size_t i = 0; i < values.size(); ++i) {
                 result += values[i] * other.values[i];
             }
             return result;
         }
 
         // Method for cross product (3D only!!)
-        Vector crossProduct(const Vector& other) const {
+        Vector cross(const Vector& other) const {
             Vector result = {
                 values[1] * other.values[2] - values[2] * other.values[1],
                 values[2] * other.values[0] - values[0] * other.values[2],
@@ -45,7 +45,7 @@ namespace VectorMath {
         // Method for scalar product
         Vector scalarProduct(double scalar) const {
             Vector result;
-            for (size_t i = 0; i < values.size(); ++i) {
+            for (std::size_t i = 0; i < values.size(); ++i) {
                 result.values.push_back(values[i] * scalar);
             }
             return result;
@@ -55,5 +55,19 @@ namespace VectorMath {
         const std::vector<double>& getValues() const {
             return values;
         }
+
+        // Getter methods for individual components
+        double x() const {
+            return values.size() > 0 ? values[0] : 0.0;
+        }
+
+        double y() const {
+            return values.size() > 1 ? values[1] : 0.0;
+        }
+
+        double z() const {
+            return values.size() > 2 ? values[2] : 0.0;
+        }
+
     };
 }
