@@ -43,6 +43,33 @@ class Vector:
 
     def __str__(self):
         return str(self.vector.toString())
+    
+    def __mul__(self, other):
+        if isinstance(other, (int, float)):
+            # Scalar * vector or vector * scalar (both perform scalar product)
+            return_vec = self.vector.scalarProduct(other)
+            if isinstance(self.vector, VectorMath.Vector1D):
+                return Vector(return_vec.x())
+            elif isinstance(self.vector, VectorMath.Vector2D):
+                return Vector(return_vec.x(),return_vec.y())
+            elif isinstance(self.vector, VectorMath.Vector3D):
+                return Vector(return_vec.x(),return_vec.y(), return_vec.z())
+        elif isinstance(other, Vector):
+            # Dot product for vector * vector
+            return self.vector.dotProduct(other.vector)
+        else:
+            raise TypeError("Unsupported operand type(s) for *: '{}' and '{}'".format(type(self), type(other)))
+    
+    def __add__(self,other):
+        return_vec = self.vector.add(other.vector)
+        if isinstance(self.vector, VectorMath.Vector1D):
+            return Vector(return_vec.x())
+        elif isinstance(self.vector, VectorMath.Vector2D):
+            return Vector(return_vec.x(),return_vec.y())
+        elif isinstance(self.vector, VectorMath.Vector3D):
+            return Vector(return_vec.x(),return_vec.y(), return_vec.z())
+
+
 
 # Example usage
 if __name__ == "__main__":
@@ -50,4 +77,6 @@ if __name__ == "__main__":
     vec2 = Vector(2.0,3.0,4.0)
 
     print(vec1,vec2)
-    print(vec1.crossProduct(vec2))
+    print(vec1*vec2)
+    print(vec1+vec2)
+    print(vec2*2.0)
