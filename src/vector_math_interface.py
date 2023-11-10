@@ -3,7 +3,7 @@
 import cppyy
 
 # Load the vector_math.cpp file as a Python module using cppyy
-cppyy.include("vector_math.cpp")
+cppyy.include("../src/vector_math.cpp")
 
 # Import the VectorMath namespace
 VectorMath = cppyy.gbl.VectorMath
@@ -73,9 +73,6 @@ class Vector:
         elif isinstance(self.vector, VectorMath.Vector3D):
             return Vector(return_vec.x(),return_vec.y(), return_vec.z())
 
-
-
-# Example usage
 if __name__ == "__main__":
     vec1 = Vector(1.0,2.0,3.0)
     vec2 = Vector(2.0,3.0,4.0)
