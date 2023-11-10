@@ -1,9 +1,13 @@
-# Example usage
 import sys
-# caution: path[0] is reserved for script path (or '' in REPL)
-sys.path.insert(1, '../src')
+import importlib
 
-import vector_math_interface.py as VectorMath
+sys.path.insert(1, '/home/cody/codes/FEM/build')
+print(sys.path)
+
+try:
+    VectorMath = importlib.import_module('VectorMath')
+except ImportError as e:
+    print(e)
 
 if __name__ == "__main__":
     vec1 = Vector(1.0,2.0,3.0)

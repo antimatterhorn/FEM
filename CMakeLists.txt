@@ -12,4 +12,4 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(pybind11)
 
 add_library(VectorMath MODULE src/vector_math.cpp src/vector_math_interface.cpp)
-target_link_libraries(VectorMath PRIVATE pybind11::module)
+target_link_libraries(VectorMath PRIVATE pybind11::module python3.8)
