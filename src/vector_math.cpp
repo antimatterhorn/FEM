@@ -113,3 +113,24 @@ namespace VectorMath {
     using Vector2D = Vector<2>;
     using Vector3D = Vector<3>;
 }
+
+
+PYBIND11_MODULE(VectorMath, m) {
+    m.doc() = "Vector Math Module";
+    
+    // Expose Vector class to Python
+    pybind11::class_<VectorMath::Vector1D>(m, "Vector1D")
+        .def(pybind11::init<>())
+        .def(pybind11::init<double>())
+        .def("toString", &VectorMath::Vector1D::toString);
+    
+    pybind11::class_<VectorMath::Vector2D>(m, "Vector2D")
+        .def(pybind11::init<>())
+        .def(pybind11::init<double, double>())
+        .def("toString", &VectorMath::Vector2D::toString);
+
+    pybind11::class_<VectorMath::Vector3D>(m, "Vector3D")
+        .def(pybind11::init<>())
+        .def(pybind11::init<double, double, double>())
+        .def("toString", &VectorMath::Vector3D::toString);
+}
