@@ -22,16 +22,24 @@ namespace VectorMath {
         }
 
         // Constructor with individual values
-        template <typename... Args>
-        Vector(Args... args) : values{static_cast<double>(args)...} {
-            static_assert(sizeof...(args) == dim, "Invalid number of arguments for Vector constructor");
-        }
+        // template <typename... Args>
+        // Vector(Args... args) : values{static_cast<double>(args)...} {
+        //     static_assert(sizeof...(args) == dim, "Invalid number of arguments for Vector constructor");
+        // }
 
         // Methods
         Vector<dim> add(const Vector<dim>& other) const {
             Vector<dim> result;
             for (int i = 0; i < dim; ++i) {
                 result.values[i] = values[i] + other.values[i];
+            }
+            return result;
+        }
+
+        Vector<dim> sub(const Vector<dim>& other) const {
+            Vector<dim> result;
+            for (int i = 0; i < dim; ++i) {
+                result.values[i] = values[i] - other.values[i];
             }
             return result;
         }
@@ -56,12 +64,40 @@ namespace VectorMath {
             return add(other);
         }
 
+        Vector<dim> operator-(const Vector<dim>& other) const {
+            return sub(other);
+        }
+
         Vector<dim> operator*(const double other) const {
             return scalarProduct(other);
         }
 
+        Vector<dim> operator-() const {
+            return scalarProduct(-1.0);
+        }
+
         double operator*(const Vector<dim> other) const {
             return dotProduct(other);
+        }
+
+        bool operator==(const Vector<dim> other) const {
+            bool result = true;
+            for (int i = 0; i < dim; ++i) {
+                if(values[i] != other.values[i])
+                    result = false;
+                    break;
+            }
+            return result;
+        }
+
+        bool operator!=(const Vector<dim> other) const {
+            bool result = true;
+            for (int i = 0; i < dim; ++i) {
+                if(values[i] != other.values[i])
+                    result = false;
+                    break;
+            }
+            return !result;
         }
 
         Vector<3> crossProduct(const Vector<3>& other) const {
@@ -109,6 +145,8 @@ namespace VectorMath {
         double magnitude() const {
             return std::sqrt(mag2());
         }
+
+        static const unsigned numElements = dim;
 
     private:
         template <typename T, typename... Args>
