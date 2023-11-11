@@ -44,20 +44,32 @@ namespace VectorMath {
             return result;
         }
 
+        Vector<dim> scalarProduct(double scalar) const {
+            Vector<dim> result;
+            for (int i = 0; i < dim; ++i) {
+                result.values[i] = values[i] * scalar;
+            }
+            return result;
+        }
+
+        Vector<dim> operator+(const Vector<dim>& other) const {
+            return add(other);
+        }
+
+        Vector<dim> operator*(const double other) const {
+            return scalarProduct(other);
+        }
+
+        double operator*(const Vector<dim> other) const {
+            return dotProduct(other);
+        }
+
         Vector<3> crossProduct(const Vector<3>& other) const {
             Vector<3> result = {
                 values[1] * other.values[2] - values[2] * other.values[1],
                 values[2] * other.values[0] - values[0] * other.values[2],
                 values[0] * other.values[1] - values[1] * other.values[0]
             };
-            return result;
-        }
-
-        Vector<dim> scalarProduct(double scalar) const {
-            Vector<dim> result;
-            for (int i = 0; i < dim; ++i) {
-                result.values[i] = values[i] * scalar;
-            }
             return result;
         }
 
@@ -112,25 +124,4 @@ namespace VectorMath {
     using Vector1D = Vector<1>;
     using Vector2D = Vector<2>;
     using Vector3D = Vector<3>;
-}
-
-
-PYBIND11_MODULE(VectorMath, m) {
-    m.doc() = "Vector Math Module";
-    
-    // Expose Vector class to Python
-    pybind11::class_<VectorMath::Vector1D>(m, "Vector1D")
-        .def(pybind11::init<>())
-        .def(pybind11::init<double>())
-        .def("toString", &VectorMath::Vector1D::toString);
-    
-    pybind11::class_<VectorMath::Vector2D>(m, "Vector2D")
-        .def(pybind11::init<>())
-        .def(pybind11::init<double, double>())
-        .def("toString", &VectorMath::Vector2D::toString);
-
-    pybind11::class_<VectorMath::Vector3D>(m, "Vector3D")
-        .def(pybind11::init<>())
-        .def(pybind11::init<double, double, double>())
-        .def("toString", &VectorMath::Vector3D::toString);
 }
