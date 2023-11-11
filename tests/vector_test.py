@@ -1,13 +1,7 @@
 import sys
 import importlib
 
-sys.path.insert(1, '/home/cody/codes/FEM/build')
-print(sys.path)
-
-try:
-    VectorMath = importlib.import_module('VectorMath')
-except ImportError as e:
-    print(e)
+from LinearAlgebra import *
 
 if __name__ == "__main__":
     vec1 = Vector(1.0,2.0,3.0)
