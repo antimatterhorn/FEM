@@ -1,15 +1,11 @@
 cmake_minimum_required(VERSION 3.12)
 project(VectorMathProject)
 
-include(FetchContent)
+# Add the pybind11 submodule
+add_subdirectory(extern/pybind11)
 
-# Fetch pybind11
-FetchContent_Declare(
-    pybind11
-    GIT_REPOSITORY https://github.com/pybind/pybind11.git
-    GIT_TAG v2.7.1  # Use the specific version you need
-)
-FetchContent_MakeAvailable(pybind11)
+# Include the pybind11 headers
+include_directories(extern/pybind11/include)
 
 add_library(VectorMath MODULE src/vector_math.cpp src/vector_math_interface.cpp)
-target_link_libraries(VectorMath PRIVATE pybind11::module python3.8)
+target_link_libraries(VectorMath PRIVATE pybind11::module)
