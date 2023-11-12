@@ -1,4 +1,4 @@
-import vector_math_interface as VectorMath
+from LinearAlgebra import *
 
 class Node:
     def __init__(self, node_id, coordinates):

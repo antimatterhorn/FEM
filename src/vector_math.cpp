@@ -9,23 +9,26 @@ namespace VectorMath {
     template <int dim>
     class Vector {
     public:
-        std::vector<double> values;
+        // Use std::array instead of std::vector
+        std::array<double, 3> values;
 
         // Constructors
-        Vector() : values(dim, 0.0) {}
-
-        // Constructor with initializer list
-        Vector(std::initializer_list<double> init) : values(init) {
-            if (init.size() != dim) {
-                throw std::invalid_argument("Invalid number of arguments for Vector constructor");
+        Vector() {
+            // Initialize values array based on the dimension
+            for (int i = 0; i < dim; ++i) {
+                values[i] = 0.0;
             }
         }
 
-        // Constructor with individual values
-        // template <typename... Args>
-        // Vector(Args... args) : values{static_cast<double>(args)...} {
-        //     static_assert(sizeof...(args) == dim, "Invalid number of arguments for Vector constructor");
-        // }
+        // Constructor with initializer list
+        Vector(std::initializer_list<double> init) {
+            if (init.size() != dim) {
+                throw std::invalid_argument("Invalid number of arguments for Vector constructor");
+            }
+            
+            // Copy values from initializer list to array
+            std::copy(init.begin(), init.end(), values.begin());
+        }
 
         // Methods
         Vector<dim> add(const Vector<dim>& other) const {
@@ -100,7 +103,7 @@ namespace VectorMath {
             return !result;
         }
 
-        Vector<3> crossProduct(const Vector<3>& other) const {
+        Vector<3> crossProduct(const Vector<dim>& other) const {
             Vector<3> result = {
                 values[1] * other.values[2] - values[2] * other.values[1],
                 values[2] * other.values[0] - values[0] * other.values[2],
@@ -149,13 +152,7 @@ namespace VectorMath {
         static const unsigned numElements = dim;
 
     private:
-        template <typename T, typename... Args>
-        void initialize(T first, Args... rest) {
-            values.push_back(static_cast<double>(first));
-            initialize(rest...);
-        }
 
-        void initialize() {}
     };
 
     // Define commonly used types
