@@ -26,6 +26,8 @@ class Vector:
         return
     @PYB11pycppname("__mul__")
     def __mul__f(self,rhs="double()"):
+        return 
+    def __truediv__(self,rhs="double()"):
         return    
     @PYB11cppname("toString")
     def __repr__(self):
@@ -45,4 +47,5 @@ class Vector:
     z = PYB11property("double", getter="z", doc="The z coordinate.")
 
     magnitude = PYB11property("double", getter="magnitude", doc="The magnitude of the vector.")
+ 
      

@@ -1,3 +1,6 @@
+from quadMath import computeQuadArea
+from LinearAlgebra import Vector2d
+
 class Node:
     def __init__(self, node_id, coordinates):
         self.id = node_id
@@ -7,6 +10,10 @@ class Element:
     def __init__(self, element_id, nodes):
         self.id = element_id
         self.nodes = nodes
+        vecs = []
+        for node in nodes:
+            vecs.append(Vector2d(*node.coordinates))
+        self.area = computeQuadArea(*vecs)
 
 class FiniteElementGrid:
     def __init__(self):

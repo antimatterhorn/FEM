@@ -83,6 +83,10 @@ namespace VectorMath {
             return dotProduct(other);
         }
 
+        Vector<dim> operator/(const double other) const {
+            return scalarProduct(1.0/other);
+        }
+
         bool operator==(const Vector<dim> other) const {
             bool result = true;
             for (int i = 0; i < dim; ++i) {
@@ -159,4 +163,27 @@ namespace VectorMath {
     using Vector1D = Vector<1>;
     using Vector2D = Vector<2>;
     using Vector3D = Vector<3>;
+
+}
+
+double computeQuadArea(const VectorMath::Vector2D& p1, const VectorMath::Vector2D& p2, const VectorMath::Vector2D& p3, const VectorMath::Vector2D& p4) {
+    // Calculate centroid
+    VectorMath::Vector2D centroid = (p1+p2+p3+p4)/4.0;
+
+    // Sort points based on angle with respect to the centroid
+    std::vector<const VectorMath::Vector2D*> sortedPoints = {&p1, &p2, &p3, &p4};
+    std::sort(sortedPoints.begin(), sortedPoints.end(), [&centroid](const VectorMath::Vector2D* a, const VectorMath::Vector2D* b) {
+        double angleA = std::atan2(a->values[1] - centroid.values[1], a->values[0] - centroid.values[0]);
+        double angleB = std::atan2(b->values[1] - centroid.values[1], b->values[0] - centroid.values[0]);
+        return angleA < angleB;
+    });
+
+    // Calculate signed area using the sorted points
+    double area = 0.0;
+    for (int i = 0; i < 4; ++i) {
+        int nextIndex = (i + 1) % 4;
+        area += (sortedPoints[i]->values[0] * sortedPoints[nextIndex]->values[1] - sortedPoints[nextIndex]->values[0] * sortedPoints[i]->values[1]);
+    }
+
+    return 0.5 * area;
 }

@@ -38,7 +38,10 @@ def export_to_vtk(file_path, fem_grid):
         # Write node coordinates
         file.write(f"POINTS {len(fem_grid.nodes)} double\n")
         for node in fem_grid.nodes:
-            file.write(f"{node.coordinates[0]} 0.0 {node.coordinates[1]}\n")
+            if len(node.coordinates) == 2:
+                file.write(f"{node.coordinates[0]} {node.coordinates[1]} 0.0\n")
+            elif len(node.coordinates) == 3:
+                file.write(f"{node.coordinates[0]} {node.coordinates[1]} {node.coordinates[2]}\n")
 
         # Write element connectivity
         total_nodes = sum(len(element.nodes) for element in fem_grid.elements)
@@ -57,10 +60,34 @@ def export_to_vtk(file_path, fem_grid):
 
         file.write("\n")
 
-        # Write nodal values (MESH variable)
+        # Point Data
         file.write("POINT_DATA " + str(len(fem_grid.nodes)) + "\n")
-        file.write("SCALARS MESH double 1\n")
+        file.write("SCALARS x double 1\n")
         file.write("LOOKUP_TABLE default\n")
         for node in fem_grid.nodes:
-            # You can replace this with your actual nodal values for the "MESH" variable
             file.write(f"{node.coordinates[0]}\n")
+
+        file.write("\n")
+
+        file.write("SCALARS y double 1\n")
+        file.write("LOOKUP_TABLE default\n")
+        for node in fem_grid.nodes:
+            file.write(f"{node.coordinates[1]}\n")
+
+        file.write("\n")
+
+        # Face Data
+        file.write("CELL_DATA " + str(len(fem_grid.elements)) + "\n")
+        file.write("SCALARS id int 1\n")
+        file.write("LOOKUP_TABLE default\n")
+        for element in fem_grid.elements:
+            file.write(f"{element.id}\n")
+
+        file.write("\n")
+
+        file.write("SCALARS area double 1\n")
+        file.write("LOOKUP_TABLE default\n")
+        for element in fem_grid.elements:
+            file.write(f"{element.area}\n")
+
+        file.write("\n")
