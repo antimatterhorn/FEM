@@ -1,4 +1,6 @@
-def import_obj(file_path):
+def import_obj(file_path, axes="(x,z)"):
+    assert axes in ["(x,y)","(x,z)","(y,z)"]
+    
     vertices = []
     faces = []
 
@@ -12,8 +14,12 @@ def import_obj(file_path):
             if parts[0] == 'v':
                 # Extract x, y, z coordinates
                 x, y, z = map(float, parts[1:4])
-                vertices.append((x, z))  # Use x and z coordinates
-
+                if axes == "(x,z)":
+                    vertices.append((x, z))  # Use x and z coordinates
+                elif axes == "(x,y)":
+                    vertices.append((x, y))
+                else:
+                    vertices.append((y, z))
             elif parts[0] == 'f':
                 # Extract vertex indices of a face
                 face = [int(index.split('/')[0]) for index in parts[1:]]
