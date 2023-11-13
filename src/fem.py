@@ -19,8 +19,8 @@ class FiniteElementGrid:
     def add_element(self, element):
         self.elements.append(element)
 
-def create_fem_grid(file_path):
-    from objReader import import_obj
+def create_fem_grid_from_obj(file_path):
+    from fileIO import import_obj
     vertices, faces = import_obj(file_path)
 
     fem_grid = FiniteElementGrid()
@@ -32,7 +32,7 @@ def create_fem_grid(file_path):
 
     # Add elements
     for element_id, face in enumerate(faces, start=1):
-        element_nodes = [fem_grid.nodes[node_index] for node_index in face]
+        element_nodes = [fem_grid.nodes[node_index-1] for node_index in face]
         element = Element(element_id, element_nodes)
         fem_grid.add_element(element)
 
