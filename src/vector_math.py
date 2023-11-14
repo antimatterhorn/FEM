@@ -47,5 +47,9 @@ class Vector:
     z = PYB11property("double", getter="z", doc="The z coordinate.")
 
     magnitude = PYB11property("double", getter="magnitude", doc="The magnitude of the vector.")
- 
-     
+
+def quadCentroid(p1="Vector2D",p2="Vector2D",p3="Vector2D",p4="Vector2D"):
+    return
+
+def quadArea(p1="Vector2D",p2="Vector2D",p3="Vector2D",p4="Vector2D"):
+    return
