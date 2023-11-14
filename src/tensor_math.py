@@ -24,8 +24,8 @@ class Tensor:
     yy = PYB11property("double", getter="yy", doc="The yy tensor component.")
     yz = PYB11property("double", getter="yz", doc="The yz tensor component.")
 
-    zx = PYB11property("double", getter="zx", doc="The yx tensor component.")
-    zy = PYB11property("double", getter="zy", doc="The yy tensor component.")
-    zz = PYB11property("double", getter="zz", doc="The yz tensor component.")
+    zx = PYB11property("double", getter="zx", doc="The zx tensor component.")
+    zy = PYB11property("double", getter="zy", doc="The zy tensor component.")
+    zz = PYB11property("double", getter="zz", doc="The zz tensor component.")
 
     determinant = PYB11property("double", getter="determinant", doc="The determinant of the tensor.")

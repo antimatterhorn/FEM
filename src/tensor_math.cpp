@@ -146,7 +146,7 @@ namespace TensorMath {
             for (int i = 0; i < dim; ++i) {
                 result += "  ";
                 for (int j = 0; j < dim; ++j) {
-                    result += std::to_string(values[i][j]);
+                    result += std::to_string(components[i][j]);
                     if (j < dim - 1) {
                         result += ", ";
                     }
