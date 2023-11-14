@@ -63,6 +63,16 @@ namespace VectorMath {
             return result;
         }
 
+        Vector<3> crossProduct(const Vector<dim>& other) const {
+            Vector<3> result = {
+                values[1] * other.values[2] - values[2] * other.values[1],
+                values[2] * other.values[0] - values[0] * other.values[2],
+                values[0] * other.values[1] - values[1] * other.values[0]
+            };
+            return result;
+        }
+
+        // Operators
         Vector<dim> operator+(const Vector<dim>& other) const {
             return add(other);
         }
@@ -107,14 +117,7 @@ namespace VectorMath {
             return !result;
         }
 
-        Vector<3> crossProduct(const Vector<dim>& other) const {
-            Vector<3> result = {
-                values[1] * other.values[2] - values[2] * other.values[1],
-                values[2] * other.values[0] - values[0] * other.values[2],
-                values[0] * other.values[1] - values[1] * other.values[0]
-            };
-            return result;
-        }
+
 
         // Getter methods for individual components
         double x() const {

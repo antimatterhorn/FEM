@@ -1,23 +1,31 @@
-from LinearAlgebra import Vector2d, quadArea
+from LinearAlgebra import Vector2d, quadArea, quadCentroid
 
 class Node:
     def __init__(self, node_id, coordinates):
-        self.id = node_id
-        self.coordinates = coordinates
+        self.id             = node_id
+        self.coordinates    = coordinates
 
 class Element:
     def __init__(self, element_id, nodes):
-        self.id = element_id
-        self.nodes = nodes
+        self.id         = element_id
+        self.nodes      = nodes
+        self.area       = self.computeArea()
+        self.centroid   = self.computeCentroid()
+    def computeArea(self):
         vecs = []
-        for node in nodes:
+        for node in self.nodes:
             vecs.append(Vector2d(*node.coordinates))
-        self.area = quadArea(*vecs)
+        return quadArea(*vecs)
+    def computeCentroid(self):
+        vecs = []
+        for node in self.nodes:
+            vecs.append(Vector2d(*node.coordinates))
+        return quadCentroid(*vecs)
 
 class FiniteElementGrid:
     def __init__(self):
-        self.nodes = []
-        self.elements = []
+        self.nodes      = []
+        self.elements   = []
 
     def add_node(self, node):
         self.nodes.append(node)
