@@ -11,7 +11,17 @@ class Tensor:
     def pyinit2(self,xx="double",xy="double",yx="double",yy="double"):
         return
     def pyinit3(self,xx="double",xy="double",xz="double",yx="double",yy="double",yz="double",zx="double",zy="double",zz="double"):
-        return  
+        return 
+    def __add__(self):
+        return
+    def __sub__(self):
+        return
+    def __neg__(self):
+        return
+    def __eq__(self):
+        return
+    def __ne__(self):
+        return
     @PYB11cppname("toString")
     def __repr__(self):
         return

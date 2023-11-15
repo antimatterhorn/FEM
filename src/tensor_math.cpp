@@ -75,6 +75,43 @@ namespace TensorMath {
             return result;
         }
 
+        // Operators
+        Tensor<dim> operator+(const Tensor<dim>& other) const {
+            return add(other);
+        }
+
+        Tensor<dim> operator-(const Tensor<dim>& other) const {
+            return sub(other);
+        }
+
+        Tensor<dim> operator*(const double other) const {
+            return scalarProduct(other);
+        }
+
+        Tensor<dim> operator-() const {
+            return scalarProduct(-1.0);
+        }
+
+        bool operator==(const Tensor<dim> other) const {
+            bool result = true;
+            for (int i = 0; i < dim*dim; ++i) {
+                if(values[i] != other.values[i])
+                    result = false;
+                    break;
+            }
+            return result;
+        }
+
+        bool operator!=(const Tensor<dim> other) const {
+            bool result = true;
+            for (int i = 0; i < dim*dim; ++i) {
+                if(values[i] != other.values[i])
+                    result = false;
+                    break;
+            }
+            return !result;
+        }
+
 
         // Getter methods for individual components
         /*
