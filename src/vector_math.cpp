@@ -93,9 +93,7 @@ namespace VectorMath {
             return dotProduct(other);
         }
 
-        Vector<dim> operator*(const double other, const Vector<dim>& vec) {
-            return vec*other;
-        }
+
 
         Vector<dim> operator/(const double other) const {
             return scalarProduct(1.0/other);
@@ -206,5 +204,10 @@ namespace VectorMath {
                 triangleArea(*sortedPoints[1], *sortedPoints[2], *sortedPoints[3]);
         }
     }
+}
+
+template <int dim>
+VectorMath::Vector<dim> operator*(const double other, const VectorMath::Vector<dim>& vec) {
+    return vec*other;
 }
 
