@@ -1,5 +1,11 @@
 from LinearAlgebra import *
 
 if __name__ == "__main__":
-    Tens1 = Tensor2d(1.0,2.0,3.0,4.0)
-    print(Tens1,Tens1.determinant)
+    m1 = Tensor2d(1.0,2.0,3.0,4.0)
+    m2 = Tensor2d(3.0,-1.0,3.0,2.5)
+    
+    print("T1 =",m1)
+    print("T2 =",m2)
+    print("T1+T2 =",m1+m2)
+    print("T2*2 = ",m2*2.0)
+    print("|T2| =",m2.determinant)
