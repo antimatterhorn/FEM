@@ -10,7 +10,7 @@ namespace VectorMath {
     class Vector {
     public:
         // Use std::array instead of std::vector
-        std::array<double, 3> values;
+        std::array<double, dim> values;
 
         // Constructors
         Vector() {

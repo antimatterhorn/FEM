@@ -25,6 +25,9 @@ class Tensor:
     @PYB11pycppname("__mul__")
     def __mul__f(self,rhs="double()"):
         return 
+    @PYB11pycppname("__mul__")
+    def __rmul__(self,rhs="double()"):
+        return 
     @PYB11cppname("toString")
     def __repr__(self):
         return
