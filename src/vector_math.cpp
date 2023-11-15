@@ -93,6 +93,10 @@ namespace VectorMath {
             return dotProduct(other);
         }
 
+        Vector<dim> operator*(const double other, const Vector<dim>& vec) {
+            return vec*other;
+        }
+
         Vector<dim> operator/(const double other) const {
             return scalarProduct(1.0/other);
         }
