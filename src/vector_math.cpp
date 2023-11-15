@@ -170,28 +170,37 @@ namespace VectorMath {
     Vector2D quadCentroid(const Vector2D& p1, const Vector2D& p2, const Vector2D& p3, const Vector2D& p4) {
         return (p1+p2+p3+p4)/4.0;
     }
-    
-    double quadArea(const Vector2D& p1, const Vector2D& p2, const Vector2D& p3, const Vector2D& p4) {
-        // Calculate centroid
-       Vector2D centroid = quadCentroid(p1,p2,p3,p4);
 
-        // Sort points based on angle with respect to the centroid
-        std::vector<const Vector2D*> sortedPoints = {&p1, &p2, &p3, &p4};
-        std::sort(sortedPoints.begin(), sortedPoints.end(), [&centroid](const Vector2D* a, const Vector2D* b) {
-            double angleA = std::atan2(a->values[1] - centroid.values[1], a->values[0] - centroid.values[0]);
-            double angleB = std::atan2(b->values[1] - centroid.values[1], b->values[0] - centroid.values[0]);
-            return angleA < angleB;
-        });
+    double triangleArea(const VectorMath::Vector2D& p1, const VectorMath::Vector2D& p2, const VectorMath::Vector2D& p3) {
+        double a = (p1 - p2).magnitude();
+        double b = (p2 - p3).magnitude();
+        double c = (p3 - p1).magnitude();
 
-        // Calculate signed area using the sorted points
-        double area = 0.0;
-        for (int i = 0; i < 4; ++i) {
-            int nextIndex = (i + 1) % 4;
-            area += (sortedPoints[i]->values[0] * sortedPoints[nextIndex]->values[1] - sortedPoints[nextIndex]->values[0] * sortedPoints[i]->values[1]);
-        }
-
-        return 0.5 * area;
+        double s = (a + b + c) / 2.0;
+        return std::sqrt(s * (s - a) * (s - b) * (s - c));
     }
 
+    double quadArea(const Vector2D& p1, const Vector2D& p2, const Vector2D& p3, const Vector2D& p4) {
+        // Sort points in clockwise order
+        std::vector<const Vector2D*> sortedPoints = {&p1, &p2, &p3, &p4};
+        std::sort(sortedPoints.begin(), sortedPoints.end(), [](const Vector2D* a, const Vector2D* b) {
+            return std::atan2(a->values[1], a->values[0]) < std::atan2(b->values[1], b->values[0]);
+        });
+
+        // Find the lengths of both diagonals
+        Vector2D d1 = *sortedPoints[0] - *sortedPoints[2];
+        Vector2D d2 = *sortedPoints[1] - *sortedPoints[3];
+
+        // Choose the shortest diagonal to decompose the quad into two triangles
+        if (d1.magnitude() <= d2.magnitude()) {
+            // Calculate the area of the triangles formed by (p1, p2, p3) and (p1, p3, p4)
+            return triangleArea(*sortedPoints[0], *sortedPoints[1], *sortedPoints[2]) +
+                triangleArea(*sortedPoints[0], *sortedPoints[2], *sortedPoints[3]);
+        } else {
+            // Calculate the area of the triangles formed by (p1, p2, p4) and (p2, p3, p4)
+            return triangleArea(*sortedPoints[0], *sortedPoints[1], *sortedPoints[3]) +
+                triangleArea(*sortedPoints[1], *sortedPoints[2], *sortedPoints[3]);
+        }
+    }
 }
 
