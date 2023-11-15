@@ -15,11 +15,7 @@ namespace TensorMath {
             for (int i = 0; i < dim*dim; ++i) {
                 values[i] = 0.0;
             }
-            for (int i = 0; i < dim; ++i) {
-                for (int j = 0; j < dim; ++j) {
-                    components[i][j] = values[i * dim + j];
-                }
-            }
+            assignComponents();
         }
 
         // Constructor with initializer list
@@ -30,11 +26,7 @@ namespace TensorMath {
             
             // Copy values from initializer list to array
             std::copy(init.begin(), init.end(), values.begin());
-            for (int i = 0; i < dim; ++i) {
-                for (int j = 0; j < dim; ++j) {
-                    components[i][j] = values[i * dim + j];
-                }
-            }
+            assignComponents();
         }
 
         // Methods
@@ -43,6 +35,7 @@ namespace TensorMath {
             for (int i = 0; i < dim*dim; ++i) {
                 result.values[i] = values[i] + other.values[i];
             }
+            result.assignComponents();
             return result;
         }
 
@@ -51,6 +44,7 @@ namespace TensorMath {
             for (int i = 0; i < dim*dim; ++i) {
                 result.values[i] = values[i] - other.values[i];
             }
+            result.assignComponents();
             return result;
         }
 
@@ -59,6 +53,7 @@ namespace TensorMath {
             for (int i = 0; i < dim*dim; ++i) {
                 result.values[i] = values[i] * scalar;
             }
+            result.assignComponents();
             return result;
         }
 
@@ -196,6 +191,15 @@ namespace TensorMath {
 
     private:
         std::array<std::array<double, dim>, dim> components;
+
+        void assignComponents()
+        {
+            for (int i = 0; i < dim; ++i) {
+                for (int j = 0; j < dim; ++j) {
+                    components[i][j] = values[i * dim + j];
+                }
+            }
+        }
     };
 
     using Tensor1D = Tensor<1>;
