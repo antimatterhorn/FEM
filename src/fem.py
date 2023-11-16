@@ -20,7 +20,7 @@ class Element:
         for node in self.nodes:
             vecs.append(Vector2d(*node.coordinates))
         return quadArea(*vecs)
-        
+
     def computeCentroid(self):
         vecs = []
         for node in self.nodes:
@@ -89,6 +89,7 @@ class FiniteElementGrid:
         print("Connectivity built.")
 
 def create_fem_grid_from_obj(file_path):
+    print("Importing %s"%file_path)
     from fileIO import import_obj
     vertices, faces = import_obj(file_path)
 
@@ -105,6 +106,10 @@ def create_fem_grid_from_obj(file_path):
         element = Element(element_id, element_nodes)
         fem_grid.add_element(element)
 
+    print("Created FEM grid with %d nodes and %d elements."%(len(fem_grid.nodes),len(fem_grid.elements)))
     return fem_grid
 
+def on_import():
+    print("v1.0")
 
+on_import()  

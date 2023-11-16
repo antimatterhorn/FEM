@@ -9,9 +9,6 @@ sgrid = fem_grid.sort_elements_connected()
 # fem_grid.sort_elements_connected()
 # fem_grid.reindex()
 
-print(len(fem_grid.nodes))
-print(len(fem_grid.elements))
-
 
 from fileIO import *
 
