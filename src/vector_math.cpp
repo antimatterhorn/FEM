@@ -204,10 +204,11 @@ namespace VectorMath {
                 triangleArea(*sortedPoints[1], *sortedPoints[2], *sortedPoints[3]);
         }
     }
+    template <int dim>
+    Vector<dim> operator*(const double other, const Vector<dim>& vec) {
+        return vec*other;
+    }
 }
 
-template <int dim>
-VectorMath::Vector<dim> operator*(const double other, const VectorMath::Vector<dim>& vec) {
-    return vec*other;
-}
+
 

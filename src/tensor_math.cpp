@@ -205,4 +205,9 @@ namespace TensorMath {
     using Tensor1D = Tensor<1>;
     using Tensor2D = Tensor<2>;
     using Tensor3D = Tensor<3>;
+
+    template <int dim>
+    Tensor<dim> operator*(const double other, const Tensor<dim>& tens) {
+        return tens*other;
+    }
 }
