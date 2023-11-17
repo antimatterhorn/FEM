@@ -26,6 +26,8 @@ class Element:
         for node in self.nodes:
             vecs.append(Vector2d(*node.coordinates))
         return quadCentroid(*vecs)
+    def shared_nodes(self,element2):
+        return set(self.nodes).intersection(set(element2.nodes))
 
 class FiniteElementGrid:
     def __init__(self):
@@ -39,6 +41,7 @@ class FiniteElementGrid:
         self.elements.append(element)
 
     def sort_grid_peano(self):
+        print("Sorting by space-filling curve...")
         # Calculate Peano-Hilbert index for each element based on its centroid
         element_indices = [(i, peanohilbert.index(int(element.centroid.x), int(element.centroid.y)), element)
                         for i, element in enumerate(self.elements)]
@@ -46,32 +49,11 @@ class FiniteElementGrid:
         # Sort elements based on Peano-Hilbert index and original order
         sorted_elements = [element for _, _, element in sorted(element_indices, key=lambda x: (x[1], x[0]))]
         self.elements = sorted_elements
-
-    def sort_elements_connected(self):
-        in_degree = {element.id: 0 for element in self.elements}
-        for element in self.elements:
-            for connected_element_id in self.connectivity_map[element.id]:
-                in_degree[connected_element_id] += 1
-
-        queue = deque(element.id for element in self.elements if in_degree[element.id] == 0)
-        sorted_elements = []
-
-        while queue:
-            current_element_id = queue.popleft()
-            sorted_elements.append(current_element_id)
-
-            for connected_element_id in self.connectivity_map[current_element_id]:
-                in_degree[connected_element_id] -= 1
-                if in_degree[connected_element_id] == 0:
-                    queue.append(connected_element_id)
-        return sorted_elements
+        self.reindex()
 
     def reindex(self):
         for i in range(len(self.elements)):
             self.elements[i].id = i
-
-    def shared_nodes(self,element1, element2):
-        return set(element1.nodes).intersection(set(element2.nodes))
 
     def build_connectivity_map(self):
         print("Building connectivity map...")
@@ -79,7 +61,7 @@ class FiniteElementGrid:
 
         for element1 in self.elements:
             for element2 in self.elements:
-                if element1 != element2 and self.shared_nodes(element1, element2):
+                if element1 != element2 and element1.shared_nodes(element2):
                     connectivity_map[element1.id].append(element2.id)
 
         self.connectivity_map = connectivity_map
@@ -110,6 +92,8 @@ def create_fem_grid_from_obj(file_path):
     return fem_grid
 
 def on_import():
-    print("v1.0")
+    from art import tprint
+    tprint("eleForge",font="larry3d")
+    print("~~~ v0.0.1 ~~~\n\n")
 
 on_import()  
