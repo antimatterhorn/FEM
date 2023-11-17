@@ -26,8 +26,12 @@ class Element:
         for node in self.nodes:
             vecs.append(Vector2d(*node.coordinates))
         return quadCentroid(*vecs)
+
     def shared_nodes(self,element2):
         return set(self.nodes).intersection(set(element2.nodes))
+        
+    def shares_nodes(self,element2):
+        return len(self.shared_nodes(element2)) > 0
 
 class FiniteElementGrid:
     def __init__(self):

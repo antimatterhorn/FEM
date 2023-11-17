@@ -18,7 +18,7 @@ public:
     Element(int _id) : id(_id) {}
 
     // Assuming a method like this exists for shared nodes check
-    bool shared_nodes(const Element& other) const {
+    bool shares_nodes(const Element& other) const {
         // Implementation of shared nodes check...
         return false;
     }
@@ -32,7 +32,7 @@ namespace Connectivity {
 
         for (const Element& element1 : elements) {
             for (const Element& element2 : elements) {
-                if (element1.id != element2.id && element1.shared_nodes(element2)) {
+                if (element1.id != element2.id && element1.shares_nodes(element2)) {
                     connectivity_map[element1.id].push_back(element2.id);
                 }
             }
