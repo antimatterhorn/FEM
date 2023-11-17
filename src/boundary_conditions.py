@@ -1,8 +1,11 @@
 class BoundaryConditions:
+    VALID_CONSTRAINT_TYPES = ["fixed", "prescribed_displacement", "prescribed_force", "roller_support", "pinned_support", "spring_support", "symmetry"]
+
     def __init__(self, conditions=None):
         self.conditions = conditions or {}
 
     def set_conditions(self, node_id, constraint_type, constraint_value):
+        assert constraint_type in self.VALID_CONSTRAINT_TYPES, f"Invalid constraint type: {constraint_type}"
         self.conditions[node_id] = {
             "constraint_type": constraint_type,
             "constraint_value": constraint_value
