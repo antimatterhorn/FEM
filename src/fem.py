@@ -1,6 +1,5 @@
-from LinearAlgebra import Vector2d, quadArea, quadCentroid
+from LinearAlgebra import *
 import peanohilbert
-from collections import deque
 
 class Node:
     def __init__(self, node_id, coordinates):
@@ -29,7 +28,7 @@ class Element:
 
     def shared_nodes(self,element2):
         return set(self.nodes).intersection(set(element2.nodes))
-        
+
     def shares_nodes(self,element2):
         return len(self.shared_nodes(element2)) > 0
 
