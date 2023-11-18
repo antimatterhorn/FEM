@@ -10,12 +10,14 @@ class Node:
 class Element:
     def __init__(self, element_id, nodes, mat=None):
         self.id         = element_id
+        self.node_ids   = [node.id for node in nodes]
         self.nodes      = nodes
         self.area       = self.compute_area()
         self.centroid   = self.compute_centroid()
         self.connected_elements = set()
         self.material   = mat
         self.stiffness  = None
+        self.loads      = []
 
     def compute_area(self):
         vecs = []
@@ -69,14 +71,14 @@ class Element:
         xi4, eta4 = self.calculate_xi_eta(-1, 1)
 
         # Calculate derivatives of shape functions with respect to xi and eta
-        dN1_dxi = 0.25 * (eta1 - eta3)
-        dN1_deta = 0.25 * (xi1 - xi3)
-        dN2_dxi = 0.25 * (eta2 - eta4)
-        dN2_deta = 0.25 * (xi2 - xi4)
-        dN3_dxi = 0.25 * (eta3 - eta1)
-        dN3_deta = 0.25 * (xi3 - xi1)
-        dN4_dxi = 0.25 * (eta4 - eta2)
-        dN4_deta = 0.25 * (xi4 - xi2)
+        dN1_dxi     = 0.25 * (eta1 - eta3)
+        dN1_deta    = 0.25 * (xi1 - xi3)
+        dN2_dxi     = 0.25 * (eta2 - eta4)
+        dN2_deta    = 0.25 * (xi2 - xi4)
+        dN3_dxi     = 0.25 * (eta3 - eta1)
+        dN3_deta    = 0.25 * (xi3 - xi1)
+        dN4_dxi     = 0.25 * (eta4 - eta2)
+        dN4_deta    = 0.25 * (xi4 - xi2)
 
         # Assemble the B matrix
         B = np.array([
@@ -104,6 +106,23 @@ class Element:
         stiffness_matrix = factor * np.dot(B.T, B)
 
         self.stiffness = stiffness_matrix
+
+    def calculate_load_vector(self):
+        # Initialize the load vector for the element
+        F_element = np.zeros(8)  # Assuming 4 nodes with 2 DOFs each
+
+        if len(self.loads) > 0:
+            # Loop through the load conditions and add loads to the corresponding nodes
+            for load_condition in self.loads:
+                node_id = load_condition.node_id
+                if node_id in self.node_ids:
+                    # Get the index of the node in the element
+                    node_index = self.node_ids.index(node_id)
+
+                    # Add the load to the corresponding DOF
+                    F_element[node_index * 2:(node_index + 1) * 2] += load_condition.load_vector.values
+
+        return F_element
 
 class FiniteElementGrid:
     def __init__(self):
